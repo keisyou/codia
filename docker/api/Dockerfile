@@ -2,8 +2,8 @@ FROM node:22.15.0
 
 WORKDIR /api
 
-COPY package.json ./
+COPY package*.json ./
 
 RUN npm install
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start:dev"]
