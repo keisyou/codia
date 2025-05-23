@@ -8,9 +8,16 @@ services:
       - 3000:3000
     depends_on:
       - api
-    volumes:
-      - ./src/web:/web
-      - node_modules_web:/web/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./src/web
+          target: /web
+          ignore:
+            - ./src/web/node_modules/
+        - action: rebuild
+          path: ./src/web/package.json
+    tty: true
     networks:
       - codia-network
 
@@ -25,9 +32,16 @@ services:
       - 3001:3001
     depends_on:
       - db
-    volumes:
-      - ./src/api:/api
-      - node_modules_api:/api/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./src/api
+          target: /api
+          ignore:
+            - ./src/api/node_modules/
+        - action: rebuild
+          path: ./src/api/package.json
+    tty: true
     networks:
       - codia-network
 
@@ -48,8 +62,6 @@ services:
 
 volumes:
   codia_db:
-  node_modules_web:
-  node_modules_api:
 
 networks:
   codia-network:
